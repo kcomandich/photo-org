@@ -12,15 +12,15 @@ class PhotoOrg
   def solution(s)
     s.lines.each do |photo|
       filename, city, date = photo.split(", ")
-      @cities[city] = [] unless @cities[city]
+      @cities[city] ||= []
       @cities[city].push(date)
-      @photos.push(city: city, date: date, extension: filename.match(/jpg|png|jpeg/))
+      @photos.push(city: city, date: date, ext: extension(filename))
     end
 
     @cities.values.map(&:sort!)
 
     @photos.each do |photo|
-      @newfilenames.push("#{numbered_city(photo[:city], photo[:date])}.#{photo[:extension]}")
+      @newfilenames.push("#{numbered_city(photo[:city], photo[:date])}.#{photo[:ext]}")
     end
 
     @newfilenames
@@ -32,6 +32,10 @@ class PhotoOrg
     num = @cities[city].index(date) + 1
     num_dates = @cities[city].count
     city + num.to_s.rjust(num_dates.digits.count, "0")
+  end
+
+  def extension(filename)
+    filename.match(/jpg|png|jpeg/)
   end
 end
 
