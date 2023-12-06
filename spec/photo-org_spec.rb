@@ -7,6 +7,7 @@ RSpec.describe PhotoOrg do
         Mike.png, London, 2015-06-20 15:13:22
         myFriends.png, Krakow, 2013-09-05 14:07:13"
     end
+    let(:input) { IO.read("input.txt") }
     let(:p) { PhotoOrg.new }
 
     it "should return a list the same length as the input" do
@@ -14,8 +15,16 @@ RSpec.describe PhotoOrg do
     end
 
     it "should number two photos from the same city sequentially by date" do
-      expect(p.solution(sample)[0]).to eq "Krakow2.jpg"
-      expect(p.solution(sample)[2]).to eq "Krakow1.png"
+      expect(p.solution(sample)[0]).to match "Krakow2"
+      expect(p.solution(sample)[2]).to match "Krakow1"
+    end
+
+    it "should output the same file extension as the input" do
+      expect(p.solution(sample)[0]).to match "jpg"
+    end
+
+    it "should format the city number with leading zeros if needed" do
+      expect(p.solution(input)[0]).to match "Krakow02"
     end
   end
 end
