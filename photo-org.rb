@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'pry-byebug'
+
 class PhotoOrg
   def initialize
     @input = IO.read("input.txt")
