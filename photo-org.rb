@@ -15,26 +15,26 @@ class PhotoOrg
   end
 
   def solution(s)
-    s.split("\n").each do |photo|
+    s.lines.each do |photo|
       filename, city, date = photo.split(", ")
-      @cities[city] = @cities[city] ?  @cities[city] : []
+      @cities[city] = [] unless @cities[city]
       @cities[city].push(date)
       @photos.push(city: city, date: date, extension: filename.match(/jpg|png|jpeg/))
     end
 
-    @cities.values.each do |array|
-      array.sort!
-    end
+    @cities.values.map(&:sort!)
 
     @photos.each do |photo|
-      city = photo[:city]
-      count = @cities[city].index(photo[:date]) + 1
-      largest = @cities[city].count
-      photo[:city] = city + count.to_s.rjust(largest.digits.count, "0")
-      @newfilenames.push("#{photo[:city]}.#{photo[:extension]}")
+      @newfilenames.push("#{numbered_city(photo[:city], photo[:date])}.#{photo[:extension]}")
     end
 
     @newfilenames
+  end
+
+  def numbered_city(city, date)
+    count = @cities[city].index(date) + 1
+    largest = @cities[city].count
+    city + count.to_s.rjust(largest.digits.count, "0")
   end
 end
 
