@@ -14,6 +14,11 @@ RSpec.describe PhotoOrg do
       expect(p.solution(sample).count).to eq 3
     end
 
+    it "retains the order of the original list of photos" do
+      expect(p.solution(sample)[0]).to match "Krakow"
+      expect(p.solution(sample)[1]).to match "London"
+    end
+
     it "should number two photos from the same city sequentially by date" do
       expect(p.solution(sample)[0]).to match "Krakow2"
       expect(p.solution(sample)[2]).to match "Krakow1"
