@@ -1,12 +1,9 @@
 #!/usr/bin/env ruby
 
-require 'pry-byebug'
-
 class PhotoOrg
   def initialize
     @photos = []
     @cities = {}
-    @newfilenames = []
   end
 
   def solution(s)
@@ -17,13 +14,10 @@ class PhotoOrg
       @photos << {city: city, date: date, ext: extension(filename)}
     end
 
+    # sort photos of the same city by date
     @cities.values.map(&:sort!)
 
-    @photos.each do |photo|
-      @newfilenames << "#{numbered_city(photo[:city], photo[:date])}.#{photo[:ext]}"
-    end
-
-    @newfilenames
+    @photos.map { |p| "#{numbered_city(p[:city], p[:date])}.#{p[:ext]}" }
   end
 
   private
