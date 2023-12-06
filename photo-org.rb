@@ -13,14 +13,14 @@ class PhotoOrg
     s.lines.each do |photo|
       filename, city, date = photo.split(", ")
       @cities[city] ||= []
-      @cities[city].push(date)
-      @photos.push(city: city, date: date, ext: extension(filename))
+      @cities[city] << date
+      @photos << {city: city, date: date, ext: extension(filename)}
     end
 
     @cities.values.map(&:sort!)
 
     @photos.each do |photo|
-      @newfilenames.push("#{numbered_city(photo[:city], photo[:date])}.#{photo[:ext]}")
+      @newfilenames << "#{numbered_city(photo[:city], photo[:date])}.#{photo[:ext]}"
     end
 
     @newfilenames
