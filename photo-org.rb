@@ -14,8 +14,6 @@ class PhotoOrg
     solution(@input)
   end
 
-  private
-
   def solution(s)
     s.split("\n").each do |photo|
       filename, city, date = photo.split(", ")
