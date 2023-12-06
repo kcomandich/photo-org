@@ -4,14 +4,9 @@ require 'pry-byebug'
 
 class PhotoOrg
   def initialize
-    @input = IO.read("input.txt")
     @photos = []
     @cities = {}
     @newfilenames = []
-  end
-
-  def run
-    solution(@input)
   end
 
   def solution(s)
@@ -31,15 +26,17 @@ class PhotoOrg
     @newfilenames
   end
 
+  private
+
   def numbered_city(city, date)
-    count = @cities[city].index(date) + 1
-    largest = @cities[city].count
-    city + count.to_s.rjust(largest.digits.count, "0")
+    num = @cities[city].index(date) + 1
+    num_dates = @cities[city].count
+    city + num.to_s.rjust(num_dates.digits.count, "0")
   end
 end
 
 if $PROGRAM_NAME == __FILE__
   p = PhotoOrg.new
 
-  puts p.run
+  puts p.solution(IO.read("input.txt"))
 end
